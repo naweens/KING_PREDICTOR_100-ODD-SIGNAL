@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KING AVIATOR PREDICTOR</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #D3D3D3;
+
+            background: 
+                linear-gradient(180deg, rgba(30, 58, 138, 0.8), rgba(0, 0, 0, 0.9)), 
+                url('https://www.dropbox.com/scl/fi/to3xwhyy2omd2n345nv6a/IMG-20250510-WA0048.jpg?rlkey=i94ewe97oyzwr1jny5zi1mati&st=8ika8w30&raw=1');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        h1 {
+            color: #FFD700;
+            font-size: 40px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
+        }
+
+        #realTimeDisplay {
+            font-size: 24px;
+            color: #D3D3D3;
+            margin-bottom: 25px;
+        }
+
+        #nextTimeDisplay {
+            font-size: 30px;
+            color: #00FF00;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        #liveOddBadge {
+            display: inline-block;
+            width: 300px;
+            height: 200px;
+            line-height: 200px;
+            background-color: #8B0000;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(211, 211, 211, 0.5), 0 0 25px rgba(211, 211, 211, 0.5);
+            text-align: center;
+            overflow: hidden;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        .whatsapp-button {
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .whatsapp-button:hover {
+            background-color: darkred;
+        }
+
+        .whatsapp-owner-button {
+            background-color: #25D366;
+            color: white;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .whatsapp-owner-button:hover {
+            background-color: #128C7E;
+        }
+    </style>
+</head>
+<body>
+    <h1>KING AVIATOR PREDICTOR</h1>
+    <div id="realTimeDisplay">Loading current time...</div>
+    <div id="nextTimeDisplay">Next Time: Loading...</div>
+    <div id="liveOddBadge">100 ODD TIME GENERATE LOADING...</div>
+
+    <script>
+        const times = [
+            "21:15", "19:07", "11:29", "10:54", "22:25", "22:08", "11:04", "10:52", "07:20", "19:47",
+            "19:25", "23:54", "14:45", "22:11", "11:20", "18:08", "22:39", "21:51", "21:20", "21:26",
+            "23:54", "12:03", "07:17", "01:07", "06:41", "11:46", "06:08", "21:41", "00:07", "12:10",
+            "08:18", "11:26", "00:04", "11:37", "00:23", "01:41", "11:04", "19:25", "06:37", "16:13",
+            "04:27", "00:24", "08:12", "21:40", "11:22", "11:01", "12:13", "02:15", "20:46", "06:24",
+            "02:42", "08:21", "04:03", "18:53", "01:37", "00:13", "03:13", "04:06", "21:35", "07:22"
+        ];
+
+        const sortedTimes = [...times].sort((a, b) => {
+            const [aHours, aMinutes] = a.split(":").map(Number);
+            const [bHours, bMinutes] = b.split(":").map(Number);
+            return (aHours * 60 + aMinutes) - (bHours * 60 + bMinutes);
+        });
+
+        const realTimeDisplay = document.getElementById("realTimeDisplay");
+        const nextTimeDisplay = document.getElementById("nextTimeDisplay");
+
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, "0");
+            const minutes = String(now.getMinutes()).padStart(2, "0");
+            return `${hours}:${minutes}`;
+        }
+
+        function updateRealTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "2-digit" });
+            const time = now.toLocaleTimeString("en-GB", { hour12: false });
+            realTimeDisplay.textContent = `Current Date & Time: ${date} ${time}`;
+        }
+
+        function findNextTime(currentTime) {
+            const [currentHours, currentMinutes] = currentTime.split(":").map(Number);
+            let nextTime = null;
+            const currentTotalMinutes = currentHours * 60 + currentMinutes;
+
+            for (let time of sortedTimes) {
+                const [hours, minutes] = time.split(":").map(Number);
+                const totalMinutes = hours * 60 + minutes;
+                if (totalMinutes > currentTotalMinutes) {
+                    nextTime = time;
+                    break;
+                }
+            }
+
+            if (!nextTime) {
+                nextTime = sortedTimes[0];
+            }
+
+            return nextTime;
+        }
+
+        function updateDisplay() {
+            const currentTime = getCurrentTime();
+            updateRealTime();
+            const nextTime = findNextTime(currentTime);
+            nextTimeDisplay.textContent = `Next Time: ${nextTime}`;
+        }
+
+        setInterval(updateDisplay, 1000);
+        updateDisplay();
+    </script>
+
+    <a href="https://whatsapp.com/channel/0029VbAgqpG3gvWb7BepMM2c" class="whatsapp-button" target="_blank">
+        KING WHATSAPP CHANNEL JOIN NOW
+    </a>
+
+    <br>
+
+    <a href="https://wa.me/+94767324225" class="whatsapp-owner-button" target="_blank">
+        KING WHATSAPP OWNER +94 76 732 4225
+    </a>
+</body>
+</html>
